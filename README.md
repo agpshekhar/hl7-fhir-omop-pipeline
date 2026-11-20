@@ -6,7 +6,7 @@ A lab result starts life as an HL7 v2 message, is shared through FHIR APIs, and 
 
 It also improves on how lab-to-research pipelines usually work: every OMOP value can be traced back to its original HL7 message in one command, bad data is caught at ingest and the checks are scored against a known answer key, unmapped codes go to a review queue instead of silently becoming concept 0, new results reach OMOP within seconds instead of the next nightly batch, and analysts get a query-ready table with one row per panel.
 
-> **Status:** Phase 4 of 16, in progress. See the [roadmap](#roadmap).
+> **Status:** Phase 5 of 16, in progress. See the [roadmap](#roadmap).
 >
 > **All data is synthetic,** generated with [Synthea](https://synthetichealth.github.io/synthea/). No real patient data is used anywhere in this project.
 
@@ -132,7 +132,7 @@ The work runs in 16 phases, each closed when its done-when check passes. Gate re
 - [x] Phase 1: Athena vocabulary request, `labpipe` CLI skeleton, LICENSE and SOURCES.md, pre-commit with ruff and gitleaks
 - [x] Phase 2: app image, Postgres and migrations (staging, error queue, crosswalk, OMOP 5.4, deferrable FKs), CI runs Compose
 - [x] Phase 3: seeded Synthea BMP extract and vocabulary subset
-- [ ] Phase 4: mock LIS writing ORU^R01 messages into staging
+- [x] Phase 4: mock LIS writing ORU^R01 messages into staging
 - [ ] Phase 5: Hop 1, HL7 v2 to FHIR R4 with UUIDv5 IDs, every resource stamped with its source MSH-10
 - [ ] Phase 6: Hop 2, FHIR to OMOP, with the mapping cache, the round-trip test and a lineage test. **Gate: Milestone 1**
 

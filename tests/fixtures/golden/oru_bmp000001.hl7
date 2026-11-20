@@ -1,0 +1,14 @@
+MSH|^~\&|LABPIPE_LIS|LABPIPE_LAB|LABPIPE|LABPIPE_HOSP|19841030032748-0600||ORU^R01^ORU_R01|BMP000001-1|P|2.5.1||||||UNICODE UTF-8
+PID|1||100007^^^LABPIPE_HOSP^MR||Ruecker817^Birgit199||19161114|F|||||||||||||||||||||19941007|Y
+PV1|1|O|||||||||||||||||67251e43-bee6-6aff-cc8a-31108aec5864
+ORC|RE||BMP000001^LABPIPE_LAB
+OBR|1||BMP000001^LABPIPE_LAB|24321-2^Basic metabolic 2000 panel - Serum or Plasma^LN|||19841030024248-0600|||||||||||||||19841030032748-0600|||F
+OBX|1|NM|2951-2^Sodium [Moles/volume] in Serum or Plasma^LN|1|139.9|mmol/L^mmol/L^UCUM|136-144|N|||F|||19841030024248-0600|||||19841030032748-0600
+OBX|2|NM|2823-3^Potassium [Moles/volume] in Serum or Plasma^LN|1|3.9|mmol/L^mmol/L^UCUM|3.7-5.2|N|||F|||19841030024248-0600|||||19841030032748-0600
+OBX|3|NM|2075-0^Chloride [Moles/volume] in Serum or Plasma^LN|1|107.9|mmol/L^mmol/L^UCUM|96-106|H|||F|||19841030024248-0600|||||19841030032748-0600
+OBX|4|NM|2028-9^Carbon dioxide, total [Moles/volume] in Serum or Plasma^LN|1|24.2|mmol/L^mmol/L^UCUM|23-29|N|||F|||19841030024248-0600|||||19841030032748-0600
+OBX|5|NM|3094-0^Urea nitrogen [Mass/volume] in Serum or Plasma^LN|1|14.9|mg/dL^mg/dL^UCUM|6-20|N|||F|||19841030024248-0600|||||19841030032748-0600
+OBX|6|NM|2160-0^Creatinine [Mass/volume] in Serum or Plasma^LN|1|1.9|mg/dL^mg/dL^UCUM|0.8-1.2|H|||F|||19841030024248-0600|||||19841030032748-0600
+OBX|7|NM|2345-7^Glucose [Mass/volume] in Serum or Plasma^LN|1|73.6|mg/dL^mg/dL^UCUM|64-100|N|||F|||19841030024248-0600|||||19841030032748-0600
+OBX|8|NM|17861-6^Calcium [Mass/volume] in Serum or Plasma^LN|1|9.6|mg/dL^mg/dL^UCUM|8.5-10.2|N|||F|||19841030024248-0600|||||19841030032748-0600
+SPM|1|||119364003^Serum specimen^SCT|||||||||||||19841030024248-0600

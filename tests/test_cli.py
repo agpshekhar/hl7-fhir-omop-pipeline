@@ -33,15 +33,6 @@ def test_unknown_command_is_rejected(capsys):
     assert "invalid choice" in capsys.readouterr().err
 
 
-@pytest.mark.parametrize(
-    "argv",
-    [["run", "--all"]],
-)
-def test_jobs_not_built_yet_exit_cleanly(argv, capsys):
-    assert main(argv) == 0
-    assert "not built yet" in capsys.readouterr().out
-
-
 def test_vocab_load_reports_a_missing_folder(tmp_path, capsys):
     assert main(["vocab", "load", "--dir", str(tmp_path / "nowhere")]) == 1
     assert "missing in" in capsys.readouterr().err

@@ -8,6 +8,8 @@ from labpipe import __version__
 from labpipe.common.db import connect
 from labpipe.common.migrate import apply_migrations, migrations_dir
 from labpipe.common.vocab import load_vocabulary, missing_files, vocab_dir
+from labpipe.lis.sample import load_panels, sample_dir
+from labpipe.lis.staging import stage_panels
 
 
 def _cmd_version(args: argparse.Namespace) -> int:
@@ -37,6 +39,25 @@ def _cmd_vocab_load(args: argparse.Namespace) -> int:
     print(f"loaded vocabulary from {directory}")
     for table, count in counts.items():
         print(f"  cdm.{table}: {count} rows")
+    return 0
+
+
+def _cmd_lis(args: argparse.Namespace) -> int:
+    directory = args.dir or sample_dir()
+    panels = load_panels(directory)
+    with connect() as conn:
+        added = stage_panels(conn, panels)
+    print(f"built {len(panels)} ORU^R01 messages from {directory}")
+    print(f"  staged {added} new, skipped {len(panels) - added} already in staging")
+    return 0
+
+
+def _cmd_run(args: argparse.Namespace) -> int:
+    exit_code = _cmd_lis(argparse.Namespace(dir=None))
+    if exit_code:
+        return exit_code
+    for command, phase in (("hop1", 5), ("hop2", 6)):
+        _not_built_yet(phase)(argparse.Namespace(command=command))
     return 0
 
 
@@ -76,9 +97,15 @@ def build_parser() -> argparse.ArgumentParser:
     vocab_parser.add_argument("--dir", type=Path, help="Directory containing the vocabulary files.")
     vocab_parser.set_defaults(func=_cmd_vocab_load)
 
+    lis_parser = subparsers.add_parser(
+        "lis", help="Mock LIS: build one ORU^R01 per panel and write it to staging"
+    )
+    lis_parser.add_argument("--dir", type=Path, help="Dictionary containing the sample files.")
+    lis_parser.set_defaults(func=_cmd_lis)
+
     run_parser = subparsers.add_parser("run", help="Run the pipeline end to end.")
     run_parser.add_argument("--all", action="store_true", help="Run every stage in order.")
-    run_parser.set_defaults(func=_not_built_yet(4))
+    run_parser.set_defaults(func=_cmd_run)
 
     return parser
 

@@ -2,10 +2,15 @@
 
 import os
 import uuid
+from pathlib import Path
 
 import psycopg
 import pytest
 from psycopg import sql
+
+from labpipe.common.migrate import apply_migrations
+
+ROOT = Path(__file__).resolve().parent.parent
 
 
 @pytest.fixture
@@ -27,3 +32,11 @@ def fresh_db_url():
 
     with psycopg.connect(base_url, autocommit=True) as admin:
         admin.execute(sql.SQL("DROP DATABASE {} WITH (FORCE)").format(sql.Identifier(name)))
+
+
+@pytest.fixture
+def staging_db(fresh_db_url):
+    """An open connection to a fresh database with every migration applied."""
+    with psycopg.connect(fresh_db_url) as conn:
+        apply_migrations(conn, ROOT / "db" / "migrations")
+        yield conn

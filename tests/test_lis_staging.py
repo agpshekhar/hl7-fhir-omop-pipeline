@@ -1,23 +1,8 @@
 """Tests for writing messages into staging.raw_message."""
 
-from pathlib import Path
-
-import psycopg
-import pytest
-
 from labpipe.cli import main
-from labpipe.common.migrate import apply_migrations
 from labpipe.lis.sample import load_panels
 from labpipe.lis.staging import stage_panels
-
-ROOT = Path(__file__).resolve().parent.parent
-
-
-@pytest.fixture
-def staging_db(fresh_db_url):
-    with psycopg.connect(fresh_db_url) as conn:
-        apply_migrations(conn, ROOT / "db" / "migrations")
-        yield conn
 
 
 def count(conn):

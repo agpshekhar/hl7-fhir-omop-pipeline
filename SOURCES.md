@@ -44,3 +44,11 @@ The standards, data and vocabularies this pipeline depends on, where each comes 
 - **Where:** MedlinePlus Medical Encyclopedia, "Basic metabolic panel", U.S. National Library of Medicine: https://medlineplus.gov/ency/article/003462.htm (review date 5/19/2025, read 2026-11-10).
 - **Terms:** MedlinePlus encyclopedia text is licensed from A.D.A.M.; only the numeric ranges are used here, cited, not the text.
 - **Use here:** `src/labpipe/lis/reference_ranges.py`. Sodium 136–144 and potassium 3.7–5.2 are given in mEq/L, which equals mmol/L for these ions. The page notes that ranges vary slightly between laboratories; one adult range per analyte is used, with no age or sex split.
+
+## BridgeLink
+
+- **What:** Open-source HL7 interface engine by Innovar Healthcare, a fork of Mirth Connect. It sits in front of staging the way an engine sits in front of a hospital's systems: it listens for ORU^R01 messages over MLLP, writes each one to `staging.raw_message`, and answers with an HL7 ACK.
+- **Where:** https://github.com/Innovar-Healthcare/BridgeLink (image at https://hub.docker.com/r/innovarhealthcare/bridgelink)
+- **License:** Mozilla Public License 2.0.
+- **Use here:** Runs from the published Docker image; nothing from it is copied into this repository. The channel definition in `interfaces/bridgelink/` is this project's own.
+- **Version:** image `innovarhealthcare/bridgelink:26.9.0`, pinned in `docker-compose.yml`.

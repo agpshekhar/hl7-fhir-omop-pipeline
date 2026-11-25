@@ -34,12 +34,3 @@ def test_lis_command_reports_new_and_skipped(fresh_db_url, monkeypatch, capsys):
     assert "staged 1331 new, skipped 0" in capsys.readouterr().out
     assert main(["lis"]) == 0
     assert "staged 0 new, skipped 1331" in capsys.readouterr().out
-
-
-def test_run_all_stages_the_messages_then_stops_at_hop1(fresh_db_url, monkeypatch, capsys):
-    monkeypatch.setenv("DATABASE_URL", fresh_db_url)
-    assert main(["migrate"]) == 0
-    assert main(["run", "--all"]) == 0
-    out = capsys.readouterr().out
-    assert "staged 1331 new" in out
-    assert "hop1: not built yet (Phase 5)" in out

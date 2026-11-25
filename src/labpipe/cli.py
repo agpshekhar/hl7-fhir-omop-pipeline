@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 from labpipe import __version__
+from labpipe.bridgelink.deploy import Engine, channel_file, deploy_channel, wait_until_ready
 from labpipe.common.db import connect
 from labpipe.common.migrate import apply_migrations, migrations_dir
 from labpipe.common.vocab import load_vocabulary, missing_files, vocab_dir
@@ -52,6 +53,15 @@ def _cmd_lis(args: argparse.Namespace) -> int:
     print(f"built {len(panels)} ORU^R01 messages from {directory}")
     print(f"  staged {added} new, skipped {len(panels) - added} already in staging")
     return 0
+
+
+def _cmd_bridgelink_deploy(args: argparse.Namespace) -> int:
+    engine = Engine.from_env()
+    path = args.file or channel_file()
+    version = wait_until_ready(engine)
+    state = deploy_channel(engine, path.read_text(encoding="utf-8"))
+    print(f"bridgelink {version}: deployed {path.name}, channel {state}")
+    return 0 if state == "STARTED" else 1
 
 
 def _cmd_hop1(args: argparse.Namespace) -> int:
@@ -108,6 +118,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     lis_parser.add_argument("--dir", type=Path, help="Dictionary containing the sample files.")
     lis_parser.set_defaults(func=_cmd_lis)
+
+    bridgelink_parser = subparsers.add_parser(
+        "bridgelink", help="Load the committed channel into BridgeLink and deploy it."
+    )
+    bridgelink_parser.add_argument("action", choices=["deploy"], help="What to do.")
+    bridgelink_parser.add_argument("--file", type=Path, help="Channel XML to deploy.")
+    bridgelink_parser.set_defaults(func=_cmd_bridgelink_deploy)
 
     hop1_parser = subparsers.add_parser(
         "hop1", help="Hop 1: turn new staged HL7 messages into FHIR R4 resources"

@@ -15,11 +15,12 @@ WORKDIR /app
 COPY pyproject.toml uv.lock README.md LICENSE ./
 RUN uv sync --frozen --no-dev --no-install-project
 
-# Then the project itself, the SQL migrations and vocabulary it loads, and the BMP sample
-# the mock LIS reads.
+# Then the project itself, the SQL migrations and vocabulary it loads, the BMP sample
+# the mock LIS reads, and the BridgeLink channel the deploy job loads.
 COPY src ./src
 COPY db ./db
 COPY data/sample ./data/sample
+COPY interfaces ./interfaces
 RUN uv sync --frozen --no-dev
 
 ENV PATH="/app/.venv/bin:$PATH"

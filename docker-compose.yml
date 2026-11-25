@@ -1,5 +1,8 @@
 # Default stack: db, then migrate, then vocab, then pipeline.
 # Each job waits for the one before it to finish successfully. No sleep loops.
+#
+# After migrate, the BridgeLink interface engine starts too, and bridgelink-deploy loads
+# its channel once the engine reports healthy.
 
 x-app: &app
   build:
@@ -40,6 +43,35 @@ services:
       migrate:
         condition: service_completed_successfully
 
+  # The interface engine. Pinned to an exact version: a channel export records the version
+  # it came from, so the engine and interfaces/bridgelink/ change together, on purpose.
+  # Its own settings and message history live in a derby database in the appdata volume;
+  # the channel writes accepted messages to our Postgres (credentials from .env).
+  bridgelink:
+    image: innovarhealthcare/bridgelink:26.9.0
+    env_file: .env
+    environment:
+      POSTGRES_HOST: db
+    ports:
+      - "${BRIDGELINK_ADMIN_PORT:-8443}:8443"
+      - "${BRIDGELINK_MLLP_PORT:-6661}:6661"
+    volumes:
+      - bridgelink-appdata:/opt/bridgelink/appdata
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    # The image ships its own healthcheck; it turns healthy once the engine has started.
+
+  # Loads interfaces/bridgelink/lab-results-in.xml into the engine and deploys it.
+  bridgelink-deploy:
+    <<: *app
+    command: ["labpipe", "bridgelink", "deploy"]
+    environment:
+      BRIDGELINK_URL: https://bridgelink:8443
+    depends_on:
+      bridgelink:
+        condition: service_healthy
+
   pipeline:
     <<: *app
     command: ["labpipe", "run", "--all"]
@@ -49,3 +81,4 @@ services:
 
 volumes:
   pgdata:
+  bridgelink-appdata:

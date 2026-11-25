@@ -8,6 +8,7 @@ from labpipe import __version__
 from labpipe.common.db import connect
 from labpipe.common.migrate import apply_migrations, migrations_dir
 from labpipe.common.vocab import load_vocabulary, missing_files, vocab_dir
+from labpipe.hop1.store import run_hop1
 from labpipe.lis.sample import load_panels, sample_dir
 from labpipe.lis.staging import stage_panels
 
@@ -52,12 +53,20 @@ def _cmd_lis(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_hop1(args: argparse.Namespace) -> int:
+    with connect() as conn:
+        counts = run_hop1(conn)
+    print(f"hop1: {counts.parsed} messages parsed, {counts.errors} errors")
+    print(f"  upserted {counts.resources} FHIR resources into staging.fhir_resource")
+    return 1 if counts.errors else 0
+
+
 def _cmd_run(args: argparse.Namespace) -> int:
-    exit_code = _cmd_lis(argparse.Namespace(dir=None))
-    if exit_code:
-        return exit_code
-    for command, phase in (("hop1", 5), ("hop2", 6)):
-        _not_built_yet(phase)(argparse.Namespace(command=command))
+    for step in (_cmd_lis, _cmd_hop1):
+        exit_code = step(argparse.Namespace(dir=None))
+        if exit_code:
+            return exit_code
+    _not_built_yet(6)(argparse.Namespace(command="hop2"))
     return 0
 
 
@@ -102,6 +111,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     lis_parser.add_argument("--dir", type=Path, help="Dictionary containing the sample files.")
     lis_parser.set_defaults(func=_cmd_lis)
+
+    hop1_parser = subparsers.add_parser(
+        "hop1", help="Hop 1: turn new staged HL7 messages into FHIR R4 resources"
+    )
+    hop1_parser.set_defaults(func=_cmd_hop1)
 
     run_parser = subparsers.add_parser("run", help="Run the pipeline end to end.")
     run_parser.add_argument("--all", action="store_true", help="Run every stage in order.")

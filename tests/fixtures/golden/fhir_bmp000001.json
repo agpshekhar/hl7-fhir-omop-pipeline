@@ -1,0 +1,788 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:a4db83b3-28e5-5049-ba1b-d9f7551f0627",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "a4db83b3-28e5-5049-ba1b-d9f7551f0627",
+        "meta": {
+          "source": "LABPIPE_LIS#BMP000001-1"
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR",
+                  "display": "Medical record number"
+                }
+              ]
+            },
+            "system": "urn:labpipe:mrn:LABPIPE_HOSP",
+            "value": "100007"
+          }
+        ],
+        "name": [
+          {
+            "family": "Ruecker817",
+            "given": [
+              "Birgit199"
+            ]
+          }
+        ],
+        "gender": "female",
+        "birthDate": "1916-11-14",
+        "deceasedDateTime": "1994-10-07"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient/a4db83b3-28e5-5049-ba1b-d9f7551f0627"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ba1dd4e5-e56b-5e0e-a1ef-e9fc8a8affaf",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "ba1dd4e5-e56b-5e0e-a1ef-e9fc8a8affaf",
+        "meta": {
+          "source": "LABPIPE_LIS#BMP000001-1"
+        },
+        "accessionIdentifier": {
+          "system": "urn:labpipe:accession:LABPIPE_LAB",
+          "value": "BMP000001"
+        },
+        "type": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "119364003",
+              "display": "Serum specimen"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/a4db83b3-28e5-5049-ba1b-d9f7551f0627"
+        },
+        "collection": {
+          "collectedDateTime": "1984-10-30T08:42:48Z"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Specimen/ba1dd4e5-e56b-5e0e-a1ef-e9fc8a8affaf"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:dfbd9f35-3c5d-55b5-9c50-922011cd13fc",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "dfbd9f35-3c5d-55b5-9c50-922011cd13fc",
+        "meta": {
+          "source": "LABPIPE_LIS#BMP000001-1"
+        },
+        "identifier": [
+          {
+            "system": "urn:labpipe:accession:LABPIPE_LAB",
+            "value": "BMP000001"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                "code": "LAB",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "24321-2",
+              "display": "Basic metabolic 2000 panel - Serum or Plasma"
+            }
+          ],
+          "text": "Basic metabolic 2000 panel - Serum or Plasma"
+        },
+        "subject": {
+          "reference": "Patient/a4db83b3-28e5-5049-ba1b-d9f7551f0627"
+        },
+        "encounter": {
+          "identifier": {
+            "system": "urn:labpipe:visit:LABPIPE_HOSP",
+            "value": "67251e43-bee6-6aff-cc8a-31108aec5864"
+          }
+        },
+        "effectiveDateTime": "1984-10-30T08:42:48Z",
+        "issued": "1984-10-30T09:27:48Z",
+        "specimen": [
+          {
+            "reference": "Specimen/ba1dd4e5-e56b-5e0e-a1ef-e9fc8a8affaf"
+          }
+        ],
+        "result": [
+          {
+            "reference": "Observation/7bb6578a-d0b6-5959-8088-db6de7b631bc"
+          },
+          {
+            "reference": "Observation/0f889cc3-ee88-519f-99bc-9f94b8b3993e"
+          },
+          {
+            "reference": "Observation/3ab5ab09-6a6d-5625-bb77-27cfe31b9fef"
+          },
+          {
+            "reference": "Observation/49ba1f2b-0f5b-5e03-a98b-07bbfaa4cc48"
+          },
+          {
+            "reference": "Observation/2f390a16-a7a1-5338-8c16-7e089183f763"
+          },
+          {
+            "reference": "Observation/42ec1a43-3826-5715-a064-b904f37ee478"
+          },
+          {
+            "reference": "Observation/f3069801-8213-5a9e-bc43-b1b807048caa"
+          },
+          {
+            "reference": "Observation/c51e59ff-1f22-513c-93c8-fa98c6dceb0a"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "DiagnosticReport/dfbd9f35-3c5d-55b5-9c50-922011cd13fc"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7bb6578a-d0b6-5959-8088-db6de7b631bc",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "7bb6578a-d0b6-5959-8088-db6de7b631bc",
+        "meta": {
+          "source": "LABPIPE_LIS#BMP000001-1"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2951-2",
+              "display": "Sodium [Moles/volume] in Serum or Plasma"
+            }
+          ],
+          "text": "Sodium [Moles/volume] in Serum or Plasma"
+        },
+        "subject": {
+          "reference": "Patient/a4db83b3-28e5-5049-ba1b-d9f7551f0627"
+        },
+        "effectiveDateTime": "1984-10-30T08:42:48Z",
+        "issued": "1984-10-30T09:27:48Z",
+        "valueQuantity": {
+          "value": 139.9,
+          "unit": "mmol/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "mmol/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ],
+        "specimen": {
+          "reference": "Specimen/ba1dd4e5-e56b-5e0e-a1ef-e9fc8a8affaf"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 136,
+              "unit": "mmol/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "mmol/L"
+            },
+            "high": {
+              "value": 144,
+              "unit": "mmol/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "mmol/L"
+            },
+            "text": "136-144"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/7bb6578a-d0b6-5959-8088-db6de7b631bc"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0f889cc3-ee88-519f-99bc-9f94b8b3993e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0f889cc3-ee88-519f-99bc-9f94b8b3993e",
+        "meta": {
+          "source": "LABPIPE_LIS#BMP000001-1"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2823-3",
+              "display": "Potassium [Moles/volume] in Serum or Plasma"
+            }
+          ],
+          "text": "Potassium [Moles/volume] in Serum or Plasma"
+        },
+        "subject": {
+          "reference": "Patient/a4db83b3-28e5-5049-ba1b-d9f7551f0627"
+        },
+        "effectiveDateTime": "1984-10-30T08:42:48Z",
+        "issued": "1984-10-30T09:27:48Z",
+        "valueQuantity": {
+          "value": 3.9,
+          "unit": "mmol/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "mmol/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ],
+        "specimen": {
+          "reference": "Specimen/ba1dd4e5-e56b-5e0e-a1ef-e9fc8a8affaf"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 3.7,
+              "unit": "mmol/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "mmol/L"
+            },
+            "high": {
+              "value": 5.2,
+              "unit": "mmol/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "mmol/L"
+            },
+            "text": "3.7-5.2"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/0f889cc3-ee88-519f-99bc-9f94b8b3993e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3ab5ab09-6a6d-5625-bb77-27cfe31b9fef",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "3ab5ab09-6a6d-5625-bb77-27cfe31b9fef",
+        "meta": {
+          "source": "LABPIPE_LIS#BMP000001-1"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2075-0",
+              "display": "Chloride [Moles/volume] in Serum or Plasma"
+            }
+          ],
+          "text": "Chloride [Moles/volume] in Serum or Plasma"
+        },
+        "subject": {
+          "reference": "Patient/a4db83b3-28e5-5049-ba1b-d9f7551f0627"
+        },
+        "effectiveDateTime": "1984-10-30T08:42:48Z",
+        "issued": "1984-10-30T09:27:48Z",
+        "valueQuantity": {
+          "value": 107.9,
+          "unit": "mmol/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "mmol/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H",
+                "display": "High"
+              }
+            ]
+          }
+        ],
+        "specimen": {
+          "reference": "Specimen/ba1dd4e5-e56b-5e0e-a1ef-e9fc8a8affaf"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 96,
+              "unit": "mmol/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "mmol/L"
+            },
+            "high": {
+              "value": 106,
+              "unit": "mmol/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "mmol/L"
+            },
+            "text": "96-106"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/3ab5ab09-6a6d-5625-bb77-27cfe31b9fef"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:49ba1f2b-0f5b-5e03-a98b-07bbfaa4cc48",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "49ba1f2b-0f5b-5e03-a98b-07bbfaa4cc48",
+        "meta": {
+          "source": "LABPIPE_LIS#BMP000001-1"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2028-9",
+              "display": "Carbon dioxide, total [Moles/volume] in Serum or Plasma"
+            }
+          ],
+          "text": "Carbon dioxide, total [Moles/volume] in Serum or Plasma"
+        },
+        "subject": {
+          "reference": "Patient/a4db83b3-28e5-5049-ba1b-d9f7551f0627"
+        },
+        "effectiveDateTime": "1984-10-30T08:42:48Z",
+        "issued": "1984-10-30T09:27:48Z",
+        "valueQuantity": {
+          "value": 24.2,
+          "unit": "mmol/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "mmol/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ],
+        "specimen": {
+          "reference": "Specimen/ba1dd4e5-e56b-5e0e-a1ef-e9fc8a8affaf"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 23,
+              "unit": "mmol/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "mmol/L"
+            },
+            "high": {
+              "value": 29,
+              "unit": "mmol/L",
+              "system": "http://unitsofmeasure.org",
+              "code": "mmol/L"
+            },
+            "text": "23-29"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/49ba1f2b-0f5b-5e03-a98b-07bbfaa4cc48"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2f390a16-a7a1-5338-8c16-7e089183f763",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "2f390a16-a7a1-5338-8c16-7e089183f763",
+        "meta": {
+          "source": "LABPIPE_LIS#BMP000001-1"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "3094-0",
+              "display": "Urea nitrogen [Mass/volume] in Serum or Plasma"
+            }
+          ],
+          "text": "Urea nitrogen [Mass/volume] in Serum or Plasma"
+        },
+        "subject": {
+          "reference": "Patient/a4db83b3-28e5-5049-ba1b-d9f7551f0627"
+        },
+        "effectiveDateTime": "1984-10-30T08:42:48Z",
+        "issued": "1984-10-30T09:27:48Z",
+        "valueQuantity": {
+          "value": 14.9,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org",
+          "code": "mg/dL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ],
+        "specimen": {
+          "reference": "Specimen/ba1dd4e5-e56b-5e0e-a1ef-e9fc8a8affaf"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 6,
+              "unit": "mg/dL",
+              "system": "http://unitsofmeasure.org",
+              "code": "mg/dL"
+            },
+            "high": {
+              "value": 20,
+              "unit": "mg/dL",
+              "system": "http://unitsofmeasure.org",
+              "code": "mg/dL"
+            },
+            "text": "6-20"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/2f390a16-a7a1-5338-8c16-7e089183f763"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:42ec1a43-3826-5715-a064-b904f37ee478",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "42ec1a43-3826-5715-a064-b904f37ee478",
+        "meta": {
+          "source": "LABPIPE_LIS#BMP000001-1"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2160-0",
+              "display": "Creatinine [Mass/volume] in Serum or Plasma"
+            }
+          ],
+          "text": "Creatinine [Mass/volume] in Serum or Plasma"
+        },
+        "subject": {
+          "reference": "Patient/a4db83b3-28e5-5049-ba1b-d9f7551f0627"
+        },
+        "effectiveDateTime": "1984-10-30T08:42:48Z",
+        "issued": "1984-10-30T09:27:48Z",
+        "valueQuantity": {
+          "value": 1.9,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org",
+          "code": "mg/dL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H",
+                "display": "High"
+              }
+            ]
+          }
+        ],
+        "specimen": {
+          "reference": "Specimen/ba1dd4e5-e56b-5e0e-a1ef-e9fc8a8affaf"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 0.8,
+              "unit": "mg/dL",
+              "system": "http://unitsofmeasure.org",
+              "code": "mg/dL"
+            },
+            "high": {
+              "value": 1.2,
+              "unit": "mg/dL",
+              "system": "http://unitsofmeasure.org",
+              "code": "mg/dL"
+            },
+            "text": "0.8-1.2"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/42ec1a43-3826-5715-a064-b904f37ee478"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f3069801-8213-5a9e-bc43-b1b807048caa",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f3069801-8213-5a9e-bc43-b1b807048caa",
+        "meta": {
+          "source": "LABPIPE_LIS#BMP000001-1"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2345-7",
+              "display": "Glucose [Mass/volume] in Serum or Plasma"
+            }
+          ],
+          "text": "Glucose [Mass/volume] in Serum or Plasma"
+        },
+        "subject": {
+          "reference": "Patient/a4db83b3-28e5-5049-ba1b-d9f7551f0627"
+        },
+        "effectiveDateTime": "1984-10-30T08:42:48Z",
+        "issued": "1984-10-30T09:27:48Z",
+        "valueQuantity": {
+          "value": 73.6,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org",
+          "code": "mg/dL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ],
+        "specimen": {
+          "reference": "Specimen/ba1dd4e5-e56b-5e0e-a1ef-e9fc8a8affaf"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 64,
+              "unit": "mg/dL",
+              "system": "http://unitsofmeasure.org",
+              "code": "mg/dL"
+            },
+            "high": {
+              "value": 100,
+              "unit": "mg/dL",
+              "system": "http://unitsofmeasure.org",
+              "code": "mg/dL"
+            },
+            "text": "64-100"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/f3069801-8213-5a9e-bc43-b1b807048caa"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c51e59ff-1f22-513c-93c8-fa98c6dceb0a",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c51e59ff-1f22-513c-93c8-fa98c6dceb0a",
+        "meta": {
+          "source": "LABPIPE_LIS#BMP000001-1"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "17861-6",
+              "display": "Calcium [Mass/volume] in Serum or Plasma"
+            }
+          ],
+          "text": "Calcium [Mass/volume] in Serum or Plasma"
+        },
+        "subject": {
+          "reference": "Patient/a4db83b3-28e5-5049-ba1b-d9f7551f0627"
+        },
+        "effectiveDateTime": "1984-10-30T08:42:48Z",
+        "issued": "1984-10-30T09:27:48Z",
+        "valueQuantity": {
+          "value": 9.6,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org",
+          "code": "mg/dL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ],
+        "specimen": {
+          "reference": "Specimen/ba1dd4e5-e56b-5e0e-a1ef-e9fc8a8affaf"
+        },
+        "referenceRange": [
+          {
+            "low": {
+              "value": 8.5,
+              "unit": "mg/dL",
+              "system": "http://unitsofmeasure.org",
+              "code": "mg/dL"
+            },
+            "high": {
+              "value": 10.2,
+              "unit": "mg/dL",
+              "system": "http://unitsofmeasure.org",
+              "code": "mg/dL"
+            },
+            "text": "8.5-10.2"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/c51e59ff-1f22-513c-93c8-fa98c6dceb0a"
+      }
+    }
+  ]
+}

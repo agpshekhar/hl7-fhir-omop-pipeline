@@ -9,6 +9,7 @@ from labpipe.common.db import connect
 from labpipe.common.migrate import apply_migrations, migrations_dir
 from labpipe.common.vocab import load_vocabulary, missing_files, vocab_dir
 from labpipe.hop1.store import run_hop1
+from labpipe.hop2.load import run_hop2
 from labpipe.lis.sample import load_panels, sample_dir
 from labpipe.lis.staging import stage_panels
 
@@ -61,27 +62,23 @@ def _cmd_hop1(args: argparse.Namespace) -> int:
     return 1 if counts.errors else 0
 
 
+def _cmd_hop2(args: argparse.Namespace) -> int:
+    with connect() as conn:
+        counts = run_hop2(conn)
+    print(f"hop2: loaded {counts.persons} persons and {counts.measurements} measurements")
+    print(f"  mapping cache: {counts.cache_entries} (code, unit) pairs resolved in one query")
+    for code_system, code, _, unit in counts.unmapped:
+        print(f"  unmapped: {code_system} {code} with unit {unit!r}", file=sys.stderr)
+    # Until Phase 9 adds the unmapped-code queue, a concept 0 fails the run loudly.
+    return 1 if counts.unmapped else 0
+
+
 def _cmd_run(args: argparse.Namespace) -> int:
-    for step in (_cmd_lis, _cmd_hop1):
+    for step in (_cmd_lis, _cmd_hop1, _cmd_hop2):
         exit_code = step(argparse.Namespace(dir=None))
         if exit_code:
             return exit_code
-    _not_built_yet(6)(argparse.Namespace(command="hop2"))
     return 0
-
-
-def _not_built_yet(phase: int):
-    """Return a handler for a job that a later phase will build.
-
-    The Compose stack runs these jobs in order, so each one must exist and exit 0
-    before its real code lands.
-    """
-
-    def handler(args: argparse.Namespace) -> int:
-        print(f"labpipe {args.command}: not built yet (Phase {phase}). Nothing to do.")
-        return 0
-
-    return handler
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -116,6 +113,11 @@ def build_parser() -> argparse.ArgumentParser:
         "hop1", help="Hop 1: turn new staged HL7 messages into FHIR R4 resources"
     )
     hop1_parser.set_defaults(func=_cmd_hop1)
+
+    hop2_parser = subparsers.add_parser(
+        "hop2", help="Hop 2: rebuild OMOP PERSON and MEASUREMENT from the staged FHIR resources"
+    )
+    hop2_parser.set_defaults(func=_cmd_hop2)
 
     run_parser = subparsers.add_parser("run", help="Run the pipeline end to end.")
     run_parser.add_argument("--all", action="store_true", help="Run every stage in order.")

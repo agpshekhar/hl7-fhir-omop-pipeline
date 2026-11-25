@@ -157,11 +157,12 @@ def test_hop1_command_and_run_all(fresh_db_url, monkeypatch, capsys, tmp_path):
     monkeypatch.setenv("DATABASE_URL", fresh_db_url)
     monkeypatch.setenv("LABPIPE_SAMPLE_DIR", str(small_sample(tmp_path / "sample", 5)))
     assert main(["migrate"]) == 0
+    assert main(["vocab", "load"]) == 0
     assert main(["run", "--all"]) == 0
     out = capsys.readouterr().out
     assert "staged 5 new" in out
     assert "hop1: 5 messages parsed, 0 errors" in out
     assert "upserted 55 FHIR resources" in out
-    assert "hop2: not built yet (Phase 6)" in out
+    assert "hop2: loaded 1 persons and 40 measurements" in out
     assert main(["hop1"]) == 0
     assert "hop1: 0 messages parsed, 0 errors" in capsys.readouterr().out

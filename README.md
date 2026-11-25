@@ -6,7 +6,7 @@ A lab result starts life as an HL7 v2 message, is shared through FHIR APIs, and 
 
 It also improves on how lab-to-research pipelines usually work: every OMOP value can be traced back to its original HL7 message in one command, bad data is caught at ingest and the checks are scored against a known answer key, unmapped codes go to a review queue instead of silently becoming concept 0, new results reach OMOP within seconds instead of the next nightly batch, and analysts get a query-ready table with one row per panel.
 
-> **Status:** Phase 6 of 16, in progress. See the [roadmap](#roadmap).
+> **Status:** Phase 7 of 16, in progress. See the [roadmap](#roadmap).
 >
 > **All data is synthetic,** generated with [Synthea](https://synthetichealth.github.io/synthea/). No real patient data is used anywhere in this project.
 
@@ -53,7 +53,7 @@ docker compose up --build -d
 docker compose ps -a     # db is healthy; migrate, vocab and pipeline exited with code 0
 ```
 
-Compose starts Postgres, waits for it to be healthy, then runs each job in order: `migrate` (creates the staging and OMOP tables), `vocab` (loads vocabularies) and `pipeline` (runs the hops). Every job is safe to rerun. A job that is not built yet prints a note and exits cleanly; each phase replaces one.
+Compose starts Postgres, waits for it to be healthy, then runs each job in order: `migrate` (creates the staging and OMOP tables), `vocab` (loads vocabularies) and `pipeline` (runs the hops). Every job is safe to rerun. On a fresh database the pipeline job loads 12 persons and 10,468 measurements into OMOP
 
 To work on the code outside Docker:
 
@@ -66,10 +66,41 @@ A minimal LOINC/UCUM vocabulary subset ships with the repo in `db/vocab_subset/`
 
 ## Worked example
 
-<!-- TODO: One lab result shown three ways, side by side:
-the HL7 v2 OBX segment, its FHIR Observation, and its OMOP MEASUREMENT row. -->
+One potassium result from panel BMP000001, as it moves through the pipeline.
 
-_Coming in Phase 6._
+**HL7 v2 (the OBX segment the mock LIS sends):**
+
+```
+OBX|2|NM|2823-3^Potassium [Moles/volume] in Serum or Plasma^LN|1|3.9|mmol/L^mmol/L^UCUM|3.7-5.2|N|||F|||19841030024248-0600
+```
+
+**FHIR R4 (the Observation Hop 1 builds, shortened):**
+
+```json
+{
+  "resourceType": "Observation",
+  "id": "0f889cc3-ee88-519f-99bc-9f94b8b3993e",
+  "meta": {"source": "LABPIPE_LIS#BMP000001-1"},
+  "code": {"coding": [{"system": "http://loinc.org", "code": "2823-3"}]},
+  "effectiveDateTime": "1984-10-30T08:42:48Z",
+  "valueQuantity": {"value": 3.9, "unit": "mmol/L", "system": "http://unitsofmeasure.org", "code": "mmol/L"},
+  "referenceRange": [{"low": {"value": 3.7}, "high": {"value": 5.2}, "text": "3.7-5.2"}]
+}
+```
+
+**OMOP CDM 5.4 (the MEASUREMENT row Hop 2 loads):**
+
+| Column | Value |
+| --- | --- |
+| `measurement_concept_id` | 3023103 (Potassium [Moles/volume] in Serum or Plasma) |
+| `measurement_source_value` / `measurement_source_concept_id` | `2823-3` / 3023103 |
+| `measurement_datetime` | 1984-10-30 08:42:48 (UTC) |
+| `value_as_number` / `value_source_value` | 3.9 / `3.9` |
+| `unit_concept_id` / `unit_source_value` | 8753 (millimole per liter) / `mmol/L` |
+| `range_low` / `range_high` | 3.7 / 5.2 |
+| `measurement_type_concept_id` | 32856 (Lab) |
+
+The local time `02:42:48-0600` becomes the UTC instant `08:42:48Z` in Hop 1, and stays UTC in OMOP. The value is carried as an exact decimal from end to end. The crosswalk links the MEASUREMENT row to the Observation's UUID, whose `meta.source` names the message, so the row traces back to the OBX above.
 
 ## Tech stack
 
@@ -134,7 +165,7 @@ The work runs in 16 phases, each closed when its done-when check passes. Gate re
 - [x] Phase 3: seeded Synthea BMP extract and vocabulary subset
 - [x] Phase 4: mock LIS writing ORU^R01 messages into staging
 - [x] Phase 5: Hop 1, HL7 v2 to FHIR R4 with UUIDv5 IDs, every resource stamped with its source MSH-10
-- [ ] Phase 6: Hop 2, FHIR to OMOP, with the mapping cache, the round-trip test and a lineage test. **Gate: Milestone 1**
+- [x] Phase 6: Hop 2, FHIR to OMOP, with the mapping cache, the round-trip test and a lineage test. **Gate: Milestone 1**
 
 **Milestone 2: interface engine and messy data (Phases 7–12)**
 
